@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "1번 세트",
+    "image": "/giftsets/resized_gift.1.jpeg",
+    "description": "한우 1++ 등심 + 불고기 구성"
+  },
+  {
+    "id": 2,
+    "name": "2번 세트",
+    "image": "/giftsets/resized_gift.2.jpeg",
+    "description": "한우 갈비 + 찜갈비 구성"
+  },
+  {
+    "id": 3,
+    "name": "3번 세트",
+    "image": "/giftsets/resized_gift.3.jpeg",
+    "description": "한우 등심 + 채끝 구성"
+  },
+  {
+    "id": 4,
+    "name": "4번 세트",
+    "image": "/giftsets/resized_gift.4.jpeg",
+    "description": "한돈 목살 + 삼겹살 구성"
+  },
+  {
+    "id": 5,
+    "name": "5번 세트",
+    "image": "/giftsets/resized_gift.5.jpeg",
+    "description": "한돈 구이세트 + 양념세트"
+  }
+]
