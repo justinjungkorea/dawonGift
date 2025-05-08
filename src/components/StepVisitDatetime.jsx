@@ -4,20 +4,15 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/locale';
 
 export default function StepVisitDatetime({ formData, setFormData, next, prev }) {
-  const today = new Date();
+  const now = new Date();
+  now.setSeconds(0, 0);
+  const today = new Date(now);
   today.setHours(0, 0, 0, 0);
-
-  const isBusinessDay = (date) => {
-    const day = date.getDay();
-    const isFutureOrToday = date >= today;
-    return isFutureOrToday && day >= 1 && day <= 6; // 월~토 + 오늘 또는 미래만 허용
-  };
 
   const generateTimeSlots = (selectedDate) => {
     const slots = [];
     const openingHour = 8;
     const closingHour = 18;
-    const now = new Date();
     const selected = new Date(selectedDate);
     const isToday = now.toDateString() === selected.toDateString();
 
@@ -26,6 +21,18 @@ export default function StepVisitDatetime({ formData, setFormData, next, prev })
       slots.push(`${hour.toString().padStart(2, '0')}:00`);
     }
     return slots;
+  };
+
+  const isBusinessDay = (date) => {
+    const day = date.getDay();
+    const isFutureOrToday = date >= today;
+    if (!isFutureOrToday || day === 0) return false; // 일요일 불가
+
+    if (date.toDateString() === now.toDateString()) {
+      const timeSlots = generateTimeSlots(date);
+      return timeSlots.length > 0; // 오늘이고 시간이 없으면 선택 불가
+    }
+    return true;
   };
 
   return (
@@ -64,12 +71,7 @@ export default function StepVisitDatetime({ formData, setFormData, next, prev })
               {generateTimeSlots(formData.pickupDate).map((time) => (
                 <button
                   key={time}
-                  onClick={() =>
-                    setFormData((f) => ({
-                      ...f,
-                      pickupTime: f.pickupTime === time ? '' : time,
-                    }))
-                  }
+                  onClick={() => setFormData((f) => ({ ...f, pickupTime: f.pickupTime === time ? '' : time }))}
                   className={`p-2 rounded-md border text-sm transition ${
                     formData.pickupTime === time
                       ? 'bg-dawonNavy text-white font-semibold'
