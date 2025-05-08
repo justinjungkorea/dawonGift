@@ -1,32 +1,37 @@
 [
   {
     "id": 1,
-    "name": "1번 세트",
-    "image": "/giftsets/resized_gift.1.jpeg",
-    "description": "한우 1++ 등심 + 불고기 구성"
+    "name": "한우 케이크",
+    "image": "/giftsets/resized_gift.10.jpg",
+    "description": "1++ 한우 특수부위로 만든 한우 케이크",
+    "price": "₩200,000"
   },
   {
     "id": 2,
-    "name": "2번 세트",
+    "name": "등심+특수부위 세트",
     "image": "/giftsets/resized_gift.2.jpeg",
-    "description": "한우 갈비 + 찜갈비 구성"
+    "description": "1++ 한우 등심과 특수부위로 구성된 선물세트",
+    "price": "₩250,000"
   },
   {
     "id": 3,
     "name": "3번 세트",
     "image": "/giftsets/resized_gift.3.jpeg",
-    "description": "한우 등심 + 채끝 구성"
+    "description": "한우 등심 + 채끝 구성",
+    "price": "₩100,000"
   },
   {
     "id": 4,
     "name": "4번 세트",
     "image": "/giftsets/resized_gift.4.jpeg",
-    "description": "한돈 목살 + 삼겹살 구성"
+    "description": "한돈 목살 + 삼겹살 구성",
+    "price": "₩100,000"
   },
   {
     "id": 5,
     "name": "5번 세트",
     "image": "/giftsets/resized_gift.5.jpeg",
-    "description": "한돈 구이세트 + 양념세트"
+    "description": "한돈 구이세트 + 양념세트",
+    "price": "₩100,000"
   }
 ]

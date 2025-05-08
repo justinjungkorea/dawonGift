@@ -3,6 +3,7 @@ import { useState } from 'react';
 import StepSelectMethod from './components/StepSelectMethod';
 import StepVisitDatetime from './components/StepVisitDatetime';
 import StepSelectGiftSet from './components/StepSelectGiftSet';
+import StepDeliveryInfo from './components/StepDeliveryInfo';
 
 export default function App() {
   const [step, setStep] = useState(0);
@@ -27,11 +28,12 @@ export default function App() {
       case 0:
         return <StepSelectMethod formData={formData} setFormData={setFormData} next={next} />;
       case 1:
-        if (formData.deliveryMethod === '방문 수령') {
+        if (formData.deliveryMethod === 'pickup') {
           return <StepVisitDatetime formData={formData} setFormData={setFormData} next={next} prev={prev} />;
+        } else if (formData.deliveryMethod === 'delivery') {
+          return <StepDeliveryInfo formData={formData} setFormData={setFormData} next={next} prev={prev} />;
         }
-        // 추후: 택배 입력 컴포넌트
-        return null;
+        return null;        
       case 2:
         return <StepSelectGiftSet formData={formData} setFormData={setFormData} next={next} prev={prev} />;
       default:

@@ -27,6 +27,7 @@ export default function StepSelectGiftSet({ formData, setFormData, next, prev })
               <div className="p-2">
                 <h3 className={`font-bold text-sm mb-1 ${isSelected ? 'text-white' : 'text-dawonNavy'}`}>{set.name}</h3>
                 <p className={`text-xs ${isSelected ? 'text-white/90' : 'text-gray-700'}`}>{set.description}</p>
+                <p className={`text-sm font-semibold mt-1 ${isSelected ? 'text-white' : 'text-dawonNavy'}`}>{set.price}</p>
               </div>
             </button>
           );
