@@ -1,4 +1,8 @@
+import { useState } from 'react';
+
 export default function StepDeliveryInfo({ formData, setFormData, next, prev }) {
+  const [showConfirm, setShowConfirm] = useState(false);
+
   const openPostcodePopup = (field) => {
     new window.daum.Postcode({
       oncomplete: function (data) {
@@ -8,10 +12,55 @@ export default function StepDeliveryInfo({ formData, setFormData, next, prev }) 
     }).open();
   };
 
+  const formatPhone = (value) => {
+    const digits = value.replace(/\D/g, '');
+    if (digits.startsWith('02')) {
+      if (digits.length <= 2) return digits;
+      if (digits.length <= 5) return `${digits.slice(0, 2)}-${digits.slice(2)}`;
+      if (digits.length <= 9) return `${digits.slice(0, 2)}-${digits.slice(2, 5)}-${digits.slice(5)}`;
+      return `${digits.slice(0, 2)}-${digits.slice(2, 6)}-${digits.slice(6, 10)}`;
+    } else {
+      if (digits.length <= 3) return digits;
+      if (digits.length <= 6) return `${digits.slice(0, 3)}-${digits.slice(3)}`;
+      if (digits.length <= 10) {
+        const mid = digits.length - 4;
+        return `${digits.slice(0, 3)}-${digits.slice(3, mid)}-${digits.slice(mid)}`;
+      }
+      return `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7, 11)}`;
+    }
+  };
+
+  const handlePhoneInput = (e, field) => {
+    const onlyDigits = e.target.value.replace(/[^\d]/g, '');
+    const formatted = formatPhone(onlyDigits);
+    setFormData((prev) => ({ ...prev, [field]: formatted }));
+  };
+
+  const isPhoneValid = (number) => {
+    return /^01[016789]-\d{4}-\d{4}$/.test(number) || /^0\d{1,2}-\d{3,4}-\d{4}$/.test(number);
+  };
+
+  const isValid =
+    formData.sender?.trim() &&
+    isPhoneValid(formData.senderPhone || '') &&
+    formData.recipient?.trim() &&
+    isPhoneValid(formData.recipientPhone || '') &&
+    formData.addressTo?.trim() &&
+    formData.addressToDetail?.trim();
+
+  const handleNext = () => {
+    if (isValid) setShowConfirm(true);
+  };
+
+  const confirmNext = () => {
+    setShowConfirm(false);
+    next();
+  };
+
   return (
     <div className="space-y-6">
-      <h2 className="text-lg font-bold text-center text-dawonNavy">주소 입력</h2>
-      <div className="space-y-4">
+      <h2 className="text-lg font-bold text-center text-dawonNavy border-b pb-2">주소 입력</h2>
+      <div className="space-y-6 bg-white/70 rounded-xl p-4 shadow">
         <div>
           <label className="block text-sm text-dawonNavy mb-1">보내는 사람 이름</label>
           <input
@@ -19,19 +68,28 @@ export default function StepDeliveryInfo({ formData, setFormData, next, prev }) 
             placeholder="홍길동"
             value={formData.sender}
             onChange={(e) => setFormData((f) => ({ ...f, sender: e.target.value }))}
-            className="w-full p-3 rounded-md border border-gray-300 bg-white/70"
+            className="w-full p-3 rounded-md border border-gray-300"
+          />
+          <input
+            type="tel"
+            inputMode="numeric"
+            maxLength={13}
+            value={formData.senderPhone || ''}
+            onChange={(e) => handlePhoneInput(e, 'senderPhone')}
+            className="mt-2 w-full p-3 rounded-md border border-gray-300"
+            placeholder="010-1234-5678 또는 02-123-4567"
           />
         </div>
 
         <div>
-          <label className="block text-sm text-dawonNavy mb-1">보내는 주소</label>
+          <label className="block text-sm text-dawonNavy mb-1">보내는 주소 <span className="text-gray-500">(주소 생략 가능)</span></label>
           <div className="flex gap-2">
             <input
               type="text"
               readOnly
               placeholder="오른쪽 검색 버튼을 눌러주세요"
               value={formData.addressFrom}
-              className="flex-1 p-3 rounded-md border border-gray-300 bg-white/70"
+              className="flex-1 p-3 rounded-md border border-gray-300"
             />
             <button
               type="button"
@@ -47,7 +105,7 @@ export default function StepDeliveryInfo({ formData, setFormData, next, prev }) 
               placeholder="상세주소 (예: 301호)"
               value={formData.addressFromDetail}
               onChange={(e) => setFormData((f) => ({ ...f, addressFromDetail: e.target.value }))}
-              className="mt-2 w-full p-3 rounded-md border border-gray-300 bg-white/70"
+              className="mt-2 w-full p-3 rounded-md border border-gray-300"
             />
           )}
         </div>
@@ -59,7 +117,16 @@ export default function StepDeliveryInfo({ formData, setFormData, next, prev }) 
             placeholder="김수신"
             value={formData.recipient}
             onChange={(e) => setFormData((f) => ({ ...f, recipient: e.target.value }))}
-            className="w-full p-3 rounded-md border border-gray-300 bg-white/70"
+            className="w-full p-3 rounded-md border border-gray-300"
+          />
+          <input
+            type="tel"
+            inputMode="numeric"
+            maxLength={13}
+            value={formData.recipientPhone || ''}
+            onChange={(e) => handlePhoneInput(e, 'recipientPhone')}
+            className="mt-2 w-full p-3 rounded-md border border-gray-300"
+            placeholder="010-5678-1234 또는 031-234-5678"
           />
         </div>
 
@@ -71,7 +138,7 @@ export default function StepDeliveryInfo({ formData, setFormData, next, prev }) 
               readOnly
               placeholder="오른쪽 검색 버튼을 눌러주세요"
               value={formData.addressTo}
-              className="flex-1 p-3 rounded-md border border-gray-300 bg-white/70"
+              className="flex-1 p-3 rounded-md border border-gray-300"
             />
             <button
               type="button"
@@ -87,7 +154,7 @@ export default function StepDeliveryInfo({ formData, setFormData, next, prev }) 
               placeholder="상세주소 (예: 앞동 101호)"
               value={formData.addressToDetail}
               onChange={(e) => setFormData((f) => ({ ...f, addressToDetail: e.target.value }))}
-              className="mt-2 w-full p-3 rounded-md border border-gray-300 bg-white/70"
+              className="mt-2 w-full p-3 rounded-md border border-gray-300"
             />
           )}
         </div>
@@ -95,18 +162,46 @@ export default function StepDeliveryInfo({ formData, setFormData, next, prev }) 
         <div className="flex justify-between pt-4">
           <button
             onClick={prev}
-            className="px-4 py-2 text-sm text-dawonNavy underline"
+            className="px-5 py-2 bg-white/70 text-dawonNavy border border-dawonNavy rounded-lg hover:bg-dawonNavy hover:text-white"
           >
             ← 이전
           </button>
           <button
-            onClick={next}
-            className="px-5 py-2 bg-dawonNavy text-white rounded-lg hover:bg-blue-950"
+            onClick={handleNext}
+            disabled={!isValid}
+            className="px-5 py-2 bg-dawonNavy text-white rounded-lg hover:bg-blue-950 disabled:opacity-40 disabled:cursor-not-allowed"
           >
             다음
           </button>
         </div>
       </div>
+
+      {showConfirm && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
+          <div className="bg-white rounded-xl p-6 max-w-sm w-full shadow-xl">
+            <h3 className="text-lg font-bold mb-4 text-dawonNavy">입력하신 내용으로 진행할까요?</h3>
+            <ul className="text-sm space-y-1 mb-4">
+              <li><b>보내는 사람:</b> {formData.sender} ({formData.senderPhone})</li>
+              <li><b>받는 사람:</b> {formData.recipient} ({formData.recipientPhone})</li>
+              <li><b>받는 주소:</b> {formData.addressTo} {formData.addressToDetail}</li>
+            </ul>
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => setShowConfirm(false)}
+                className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 text-sm"
+              >
+                취소
+              </button>
+              <button
+                onClick={confirmNext}
+                className="px-4 py-2 rounded bg-dawonNavy text-white hover:bg-blue-950 text-sm"
+              >
+                확인
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
