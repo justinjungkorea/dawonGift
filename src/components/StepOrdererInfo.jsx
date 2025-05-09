@@ -49,6 +49,7 @@ export default function StepOrdererInfo({ formData, setFormData, next }) {
           </button>
         </div>
       </div>
+      <p className="text-sm font-bold text-center text-dawonNavy">단체문의는 전화문의 부탁드립니다.</p>
     </div>
   );
 }

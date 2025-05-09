@@ -27,6 +27,15 @@ export default function App() {
   const next = () => setStep((s) => s + 1);
   const prev = () => setStep((s) => s - 1);
 
+  const PhoneButton = () => (
+    <a
+      href="tel:0426355911"
+      className="fixed bottom-4 right-4 z-50 bg-dawonNavy text-white px-4 py-2 rounded-full shadow-lg hover:bg-blue-950 text-sm"
+    >
+      ☎ 전화문의
+    </a>
+  );
+
   const renderStep = () => {
     switch (step) {
       case 0:
@@ -34,7 +43,7 @@ export default function App() {
       case 1:
         return <StepSelectMethod formData={formData} setFormData={setFormData} next={next} />;
       case 2:
-        if (formData.deliveryMethod === '방문 수령') {
+        if (formData.deliveryMethod === 'pickup') {
           return <StepVisitDatetime formData={formData} setFormData={setFormData} next={next} prev={prev} />;
         }
         return <StepDeliveryInfo formData={formData} setFormData={setFormData} next={next} prev={prev} />;
@@ -55,6 +64,7 @@ export default function App() {
         <h1 className="text-2xl font-bold text-dawonNavy">다원축산 선물세트</h1>
       </header>
       <main className="max-w-md mx-auto space-y-6">{renderStep()}</main>
+      <PhoneButton />
     </div>
   );
 }
