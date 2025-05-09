@@ -4,6 +4,7 @@ import StepSelectMethod from './components/StepSelectMethod';
 import StepVisitDatetime from './components/StepVisitDatetime';
 import StepSelectGiftSet from './components/StepSelectGiftSet';
 import StepDeliveryInfo from './components/StepDeliveryInfo';
+import StepCart from './components/StepCart';
 
 export default function App() {
   const [step, setStep] = useState(0);
@@ -49,6 +50,8 @@ export default function App() {
         return <StepDeliveryInfo formData={formData} setFormData={setFormData} next={next} prev={prev} />;
       case 3:
         return <StepSelectGiftSet formData={formData} setFormData={setFormData} next={next} prev={prev} />;
+      case 4:
+        return <StepCart formData={formData} setFormData={setFormData} next={next} prev={prev} />;
       default:
         return <div className="text-center text-dawonNavy">아직 준비 중인 단계입니다.</div>;
     }

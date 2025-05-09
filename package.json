@@ -17,6 +17,7 @@
     "buffer": "^6.0.3",
     "crypto-browserify": "^3.12.1",
     "date-fns": "^4.1.0",
+    "lucide-react": "^0.508.0",
     "process": "^0.11.10",
     "react": "^19.1.0",
     "react-datepicker": "^8.3.0",

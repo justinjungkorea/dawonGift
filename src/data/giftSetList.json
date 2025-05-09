@@ -3,57 +3,57 @@
     "id": 1,
     "name": "한우 케이크",
     "image": "/giftsets/resized_gift.10.jpg",
-    "description": "1++ 한우 특수부위로 만든 한우 케이크",
-    "price": "₩200,000 (1kg 기준)"
+    "description": "1++ 한우 특수부위로 만든 한우 케이크(1kg 기준)",
+    "price": "₩200,000"
   },
   {
     "id": 2,
     "name": "등심+특수부위 세트",
     "image": "/giftsets/resized_gift.2.jpeg",
-    "description": "1++ 한우 등심과 특수부위로 구성된 선물세트",
-    "price": "₩250,000 (1.2kg 기준)"
+    "description": "1++ 한우 등심과 특수부위로 구성된 선물세트(1.2kg 기준)",
+    "price": "₩250,000"
   },
   {
     "id": 3,
     "name": "등심 세트",
     "image": "/giftsets/resized_gift.1.jpeg",
-    "description": "1++ 한우 등심으로 구성된 선물세트",
-    "price": "₩200,000 (1.3kg 기준)"
+    "description": "1++ 한우 등심으로 구성된 선물세트(1.3kg 기준)",
+    "price": "₩200,000"
   },
   {
     "id": 4,
     "name": "LA갈비 세트",
     "image": "/giftsets/resized_gift.3.jpeg",
-    "description": "미국산 초이스 등급 LA갈비로 구성된 선물세트",
-    "price": "₩120,000 (2.8kg 기준)"
+    "description": "미국산 초이스 등급 LA갈비로 구성된 선물세트(2.8kg 기준)",
+    "price": "₩120,000"
   },
   {
     "id": 5,
     "name": "LA찜갈비 세트",
     "image": "/giftsets/resized_gift.6.jpeg",
-    "description": "미국산 초이스 등급 LA 찜갈비로 구성된 선물세트",
-    "price": "₩120,000 (2.8kg 기준)"
+    "description": "미국산 초이스 등급 LA 찜갈비로 구성된 선물세트(2.8kg 기준)",
+    "price": "₩120,000"
   },
   {
     "id": 6,
     "name": "한돈 세트",
     "image": "/giftsets/resized_gift.7.jpeg",
-    "description": "최상급 한돈으로 구성된 선물세트",
-    "price": "₩80,000 (2.3kg 기준)"
+    "description": "최상급 한돈으로 구성된 선물세트(2.3kg 기준)",
+    "price": "₩80,000"
   },
   {
     "id": 7,
     "name": "한돈 케이크",
     "image": "/giftsets/resized_gift.9.jpg",
-    "description": "최상급 한돈으로 만든 한돈 케이크",
-    "price": "₩60,000 (1.3kg 기준)"
+    "description": "최상급 한돈으로 만든 한돈 케이크(1.3kg 기준)",
+    "price": "₩60,000"
   },
   {
     "id": 8,
     "name": "한우 우족 세트",
     "image": "/giftsets/resized_gift.4.jpeg",
-    "description": "한우 우족으로 구성된 선물세트",
-    "price": "₩70,000 (2.5kg 기준)"
+    "description": "한우 우족으로 구성된 선물세트(2.5kg 기준)",
+    "price": "₩70,000"
   },
   {
     "id": 9,
@@ -66,7 +66,7 @@
     "id": 10,
     "name": "한우 불고기 국거리 세트",
     "image": "/giftsets/resized_gift.8.jpeg",
-    "description": "1++ 한우 불고기와 국거리로 구성된 실속 선물세트",
-    "price": "₩80,000 (2.3kg 기준)"
+    "description": "1++ 한우 불고기와 국거리로 구성된 실속 선물세트(2.3kg 기준)",
+    "price": "₩80,000"
   }
 ]
