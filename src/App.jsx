@@ -1,5 +1,5 @@
-// src/App.jsx
 import { useState } from 'react';
+import StepOrdererInfo from './components/StepOrdererInfo';
 import StepSelectMethod from './components/StepSelectMethod';
 import StepVisitDatetime from './components/StepVisitDatetime';
 import StepSelectGiftSet from './components/StepSelectGiftSet';
@@ -8,9 +8,13 @@ import StepDeliveryInfo from './components/StepDeliveryInfo';
 export default function App() {
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({
+    orderer: '',
+    ordererPhone: '',
     deliveryMethod: '',
     sender: '',
+    senderPhone: '',
     recipient: '',
+    recipientPhone: '',
     addressFrom: '',
     addressTo: '',
     addressFromDetail: '',
@@ -26,15 +30,15 @@ export default function App() {
   const renderStep = () => {
     switch (step) {
       case 0:
-        return <StepSelectMethod formData={formData} setFormData={setFormData} next={next} />;
+        return <StepOrdererInfo formData={formData} setFormData={setFormData} next={next} />;
       case 1:
-        if (formData.deliveryMethod === 'pickup') {
-          return <StepVisitDatetime formData={formData} setFormData={setFormData} next={next} prev={prev} />;
-        } else if (formData.deliveryMethod === 'delivery') {
-          return <StepDeliveryInfo formData={formData} setFormData={setFormData} next={next} prev={prev} />;
-        }
-        return null;        
+        return <StepSelectMethod formData={formData} setFormData={setFormData} next={next} />;
       case 2:
+        if (formData.deliveryMethod === '방문 수령') {
+          return <StepVisitDatetime formData={formData} setFormData={setFormData} next={next} prev={prev} />;
+        }
+        return <StepDeliveryInfo formData={formData} setFormData={setFormData} next={next} prev={prev} />;
+      case 3:
         return <StepSelectGiftSet formData={formData} setFormData={setFormData} next={next} prev={prev} />;
       default:
         return <div className="text-center text-dawonNavy">아직 준비 중인 단계입니다.</div>;
