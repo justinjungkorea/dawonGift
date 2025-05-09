@@ -2,12 +2,15 @@
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/locale';
+import { useState } from 'react';
 
 export default function StepVisitDatetime({ formData, setFormData, next, prev }) {
   const now = new Date();
   now.setSeconds(0, 0);
   const today = new Date(now);
   today.setHours(0, 0, 0, 0);
+
+  const [calendarOpen, setCalendarOpen] = useState(false);
 
   const generateTimeSlots = (selectedDate) => {
     const slots = [];
@@ -48,21 +51,26 @@ export default function StepVisitDatetime({ formData, setFormData, next, prev })
                 const localDate = date.toLocaleDateString('sv-SE');
                 setFormData((f) => ({ ...f, pickupDate: localDate, pickupTime: '' }));
               }
+              setCalendarOpen(false);
             }}
             filterDate={isBusinessDay}
             locale={ko}
             dateFormat="yyyy-MM-dd"
-            customInput={
-              <button
-                type="button"
-                className="w-full p-3 rounded-md border border-gray-300 bg-white/70 text-left"
-              >
-                {formData.pickupDate
-                  ? new Date(formData.pickupDate).toLocaleDateString()
-                  : '날짜를 선택하세요'}
-              </button>
-            }
+            onClickOutside={() => setCalendarOpen(false)}
+            open={calendarOpen}
+            popperPlacement="bottom-start"
+            popperClassName="z-50"
+            customInput={<div />} // 빈 div로 대체해 실제 입력 요소 제거
           />
+          <button
+            type="button"
+            onClick={() => setCalendarOpen(true)}
+            className="w-full p-3 mt-2 rounded-md border border-gray-300 bg-white/70 text-left"
+          >
+            {formData.pickupDate
+              ? new Date(formData.pickupDate).toLocaleDateString()
+              : '날짜를 선택하세요'}
+          </button>
         </div>
         {formData.pickupDate && (
           <div>
