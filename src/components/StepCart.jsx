@@ -1,9 +1,11 @@
+// src/components/StepCart.jsx
 import { useState } from 'react';
 import giftSets from '../data/giftSetList.json';
 
 export default function StepCart({ formData, setFormData, next, prev }) {
   const cartItems = formData.cartItems || [];
   const [showComplete, setShowComplete] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const updateQuantity = (name, delta) => {
     const updatedCart = cartItems.map((item) => {
@@ -26,6 +28,42 @@ export default function StepCart({ formData, setFormData, next, prev }) {
     const price = product ? parseInt(product.price.replace(/[^\d]/g, ''), 10) : 0;
     return sum + price * item.quantity;
   }, 0);
+
+  const handleSubmit = async () => {
+    setIsSubmitting(true);
+    try {
+      const payload = {
+        orderer: formData.orderer,
+        ordererPhone: formData.ordererPhone,
+        deliveryMethod: formData.deliveryMethod,
+        sender: formData.sender,
+        senderPhone: formData.senderPhone,
+        recipient: formData.recipient,
+        recipientPhone: formData.recipientPhone,
+        addressTo: `${formData.addressTo} ${formData.addressToDetail}`.trim(),
+        pickup: formData.pickupDate && formData.pickupTime ? `${formData.pickupDate} ${formData.pickupTime}` : '',
+        cartItems: cartItems.map((item) => ({ name: item.name, quantity: item.quantity })),
+        totalPrice,
+        timestamp: new Date().toLocaleString(),
+      };
+
+      const res = await fetch('https://script.google.com/macros/s/AKfycbwEFccSUXoHqVRNTigjdTK3K54xR1-AAbg1uhxZ47qspWHKP_X7ZwYzFSg35g0lZ8ve/exec', {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      });
+
+      const result = await res.json();
+      if (result.result === 'success') {
+        setShowComplete(true);
+      } else {
+        alert('오류 발생: ' + result.message);
+      }
+    } catch (err) {
+      alert('네트워크 오류가 발생했습니다. 다시 시도해주세요.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -84,13 +122,14 @@ export default function StepCart({ formData, setFormData, next, prev }) {
           ← 이전
         </button>
         <button
-          onClick={() => setShowComplete(true)}
-          disabled={cartItems.length === 0}
+          onClick={handleSubmit}
+          disabled={cartItems.length === 0 || isSubmitting}
           className="px-4 py-2 text-sm text-white bg-dawonNavy rounded-lg hover:bg-blue-950 disabled:opacity-40 disabled:cursor-not-allowed"
         >
-          주문
+          {isSubmitting ? '주문 중...' : '주문'}
         </button>
       </div>
+
       {showComplete && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
           <div className="bg-white rounded-xl p-6 max-w-sm w-full shadow-xl text-center">
@@ -98,8 +137,8 @@ export default function StepCart({ formData, setFormData, next, prev }) {
             <button
               onClick={() => {
                 setShowComplete(false);
-                setFormData({}); // 초기화
-                prev(); prev(); prev(); prev(); // Step 4 → 0 으로 돌아가기
+                setFormData({});
+                prev(); prev(); prev(); prev();
               }}
               className="mt-2 px-4 py-2 rounded bg-dawonNavy text-white hover:bg-blue-950 text-sm"
             >
