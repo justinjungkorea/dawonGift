@@ -60,8 +60,8 @@ export default function StepDeliveryInfo({ formData, setFormData, next, prev }) 
 
   return (
     <div className="space-y-6">
-      <h2 className="text-lg font-bold text-center text-dawonNavy border-b pb-2">주소 입력</h2>
-      <div className="space-y-6 bg-white/70 rounded-xl p-4 shadow">
+      <h2 className="text-base sm:text-lg font-bold text-center text-dawonNavy border-b pb-2">주소 입력</h2>
+      <div className="space-y-4 sm:space-y-6 bg-white/70 rounded-xl p-3 sm:p-4 shadow">
         <div>
           <label className="block text-sm text-dawonNavy mb-1">보내는 사람 이름</label>
           <div className="flex items-center mb-2">
@@ -81,7 +81,7 @@ export default function StepDeliveryInfo({ formData, setFormData, next, prev }) 
             placeholder="홍길동"
             value={formData.sender}
             onChange={(e) => setFormData((f) => ({ ...f, sender: e.target.value }))}
-            className="w-full p-3 rounded-md border border-gray-300"
+            className="w-full p-2 sm:p-3 rounded-md border border-gray-300"
           />
           <input
             type="tel"
@@ -89,7 +89,7 @@ export default function StepDeliveryInfo({ formData, setFormData, next, prev }) 
             maxLength={13}
             value={formData.senderPhone || ''}
             onChange={(e) => handlePhoneInput(e, 'senderPhone')}
-            className="mt-2 w-full p-3 rounded-md border border-gray-300"
+            className="mt-2 w-full p-2 sm:p-3 rounded-md border border-gray-300"
             placeholder="010-1234-5678 또는 02-123-4567"
           />
         </div>
