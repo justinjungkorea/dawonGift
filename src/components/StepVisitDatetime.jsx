@@ -51,19 +51,19 @@ export default function StepVisitDatetime({ formData, setFormData, next, prev })
             }}
             filterDate={isBusinessDay}
             locale={ko}
-            placeholderText="날짜를 선택하세요"
-            className="w-full p-3 rounded-md border border-gray-300 bg-white/70"
             dateFormat="yyyy-MM-dd"
-            dayClassName={(date) => {
-              const isAvailable = isBusinessDay(date);
-              const isSelected = formData.pickupDate && new Date(formData.pickupDate).toDateString() === date.toDateString();
-              return `${
-                isAvailable ? 'text-gray-900' : 'text-gray-400 line-through cursor-not-allowed'
-              } ${isSelected ? 'bg-dawonNavy text-white font-bold rounded-full' : ''}`;
-            }}
+            customInput={
+              <button
+                type="button"
+                className="w-full p-3 rounded-md border border-gray-300 bg-white/70 text-left"
+              >
+                {formData.pickupDate
+                  ? new Date(formData.pickupDate).toLocaleDateString()
+                  : '날짜를 선택하세요'}
+              </button>
+            }
           />
         </div>
-
         {formData.pickupDate && (
           <div>
             <label className="block text-sm text-dawonNavy mb-1">수령 시간</label>
