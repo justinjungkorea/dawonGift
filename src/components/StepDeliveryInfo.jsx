@@ -132,14 +132,14 @@ export default function StepDeliveryInfo({ formData, setFormData, next, prev }) 
             <input
               type="text"
               readOnly
-              placeholder="오른쪽 검색 버튼을 눌러주세요"
+              placeholder="검색 버튼 선택 →"
               value={formData.addressTo}
-              className="flex-1 p-3 rounded-md border border-gray-300"
+              className="flex-grow p-3 rounded-md border border-gray-300"
             />
             <button
               type="button"
               onClick={() => openPostcodePopup('addressTo')}
-              className="px-3 py-2 text-sm text-white bg-dawonNavy rounded-lg hover:bg-blue-950"
+              className="w-20 shrink-0 text-sm text-white bg-dawonNavy rounded-lg hover:bg-blue-950"
             >
               검색
             </button>
