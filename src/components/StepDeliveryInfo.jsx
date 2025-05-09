@@ -4,6 +4,7 @@ import { formatPhone, isPhoneValid } from '@/utils';
 export default function StepDeliveryInfo({ formData, setFormData, next, prev }) {
   const [showConfirm, setShowConfirm] = useState(false);
   const [sameAsOrderer, setSameAsOrderer] = useState(false);
+  const [sameRecipientInfo, setSameRecipientInfo] = useState(false);
 
   useEffect(() => {
     if (sameAsOrderer) {
@@ -14,6 +15,16 @@ export default function StepDeliveryInfo({ formData, setFormData, next, prev }) 
       }));
     }
   }, [sameAsOrderer, setFormData]);
+
+  useEffect(() => {
+    if (sameRecipientInfo) {
+      setFormData((prev) => ({
+        ...prev,
+        recipient: prev.sender,
+        recipientPhone: prev.senderPhone,
+      }));
+    }
+  }, [sameRecipientInfo, setFormData]);
 
   const openPostcodePopup = (field) => {
     new window.daum.Postcode({
@@ -84,36 +95,19 @@ export default function StepDeliveryInfo({ formData, setFormData, next, prev }) 
         </div>
 
         <div>
-          <label className="block text-sm text-dawonNavy mb-1">보내는 주소 <span className="text-gray-500">(주소 생략 가능)</span></label>
-          <div className="flex gap-2">
-            <input
-              type="text"
-              readOnly
-              placeholder="오른쪽 검색 버튼을 눌러주세요"
-              value={formData.addressFrom}
-              className="flex-1 p-3 rounded-md border border-gray-300"
-            />
-            <button
-              type="button"
-              onClick={() => openPostcodePopup('addressFrom')}
-              className="px-3 py-2 text-sm text-white bg-dawonNavy rounded-lg hover:bg-blue-950"
-            >
-              검색
-            </button>
-          </div>
-          {formData.addressFrom && (
-            <input
-              type="text"
-              placeholder="상세주소 (예: 301호)"
-              value={formData.addressFromDetail}
-              onChange={(e) => setFormData((f) => ({ ...f, addressFromDetail: e.target.value }))}
-              className="mt-2 w-full p-3 rounded-md border border-gray-300"
-            />
-          )}
-        </div>
-
-        <div>
           <label className="block text-sm text-dawonNavy mb-1">받는 사람 이름</label>
+          <div className="flex items-center mb-2">
+            <input
+              id="sameRecipientInfo"
+              type="checkbox"
+              checked={sameRecipientInfo}
+              onChange={(e) => setSameRecipientInfo(e.target.checked)}
+              className="mr-2"
+            />
+            <label htmlFor="sameRecipientInfo" className="text-sm text-gray-700">
+              보내는 사람과 동일
+            </label>
+          </div>
           <input
             type="text"
             placeholder="김수신"
