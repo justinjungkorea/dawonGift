@@ -128,13 +128,13 @@ export default function StepDeliveryInfo({ formData, setFormData, next, prev }) 
 
         <div>
           <label className="block text-sm text-dawonNavy mb-1">받는 주소</label>
-          <div className="flex gap-2">
+          <div className="flex gap-2 min-w-0">
             <input
               type="text"
               readOnly
               placeholder="검색 버튼 선택 →"
               value={formData.addressTo}
-              className="flex-grow p-3 rounded-md border border-gray-300"
+              className="w-full min-w-0 p-3 rounded-md border border-gray-300"
             />
             <button
               type="button"
