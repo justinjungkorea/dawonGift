@@ -6,6 +6,7 @@ export default function StepCart({ formData, setFormData, next, prev }) {
   const cartItems = formData.cartItems || [];
   const [showComplete, setShowComplete] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showError, setShowError] = useState(false);
 
   const updateQuantity = (name, delta) => {
     const updatedCart = cartItems.map((item) => {
@@ -47,7 +48,9 @@ export default function StepCart({ formData, setFormData, next, prev }) {
         timestamp: new Date().toLocaleString(),
       };
 
-      const res = await fetch('https://script.google.com/macros/s/AKfycbwEFccSUXoHqVRNTigjdTK3K54xR1-AAbg1uhxZ47qspWHKP_X7ZwYzFSg35g0lZ8ve/exec', {
+      console.log(JSON.stringify(payload));
+
+      const res = await fetch('https://script.google.com/macros/s/AKfycbxWTZNk2aCoRjTiCjVr3OMH8tqlpFqpUxiB-6tZ5RkHe_M7S06nwB1IFzi2wHssRIE4/exec', {
         method: 'POST',
         body: JSON.stringify(payload),
       });
@@ -56,12 +59,30 @@ export default function StepCart({ formData, setFormData, next, prev }) {
       if (result.result === 'success') {
         setShowComplete(true);
       } else {
-        alert('오류 발생: ' + result.message);
+        setShowError(true);
       }
     } catch (err) {
-      alert('네트워크 오류가 발생했습니다. 다시 시도해주세요.');
+      setShowError(true);
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const generateSMSLink = () => {
+    const { deliveryMethod, pickupDate, pickupTime, orderer, ordererPhone, sender, senderPhone, addressTo, recipient, recipientPhone } = formData;
+    const date = pickupDate && pickupTime ? `${pickupDate} ${pickupTime}` : '';
+    const meat = cartItems.map((item) => `${item.name} ${item.quantity}개`).join(', ');
+    const price = `${totalPrice.toLocaleString()}원`;
+    const etc = formData.memo || '';
+
+    if (deliveryMethod === 'pickup') {
+      return `sms:01035610863?body=${encodeURIComponent(
+        `선물세트 신청(방문수령)\n\n▶︎ 수령일: ${date}\n▶︎ 이름: ${orderer}\n▶︎ 연락처: ${ordererPhone}\n▶︎ 품목: ${meat}\n▶︎ 금액: ${price}\n▶︎ 비고: ${etc}`
+      )}`;
+    } else {
+      return `sms:01035610863?body=${encodeURIComponent(
+        `선물세트 신청(택배)\n\n▶︎ 이름: ${orderer}\n▶︎ 연락처: ${ordererPhone}\n▶︎ 품목: ${meat}\n▶︎ 금액: ${price}\n▶︎ 비고: ${etc}\n\n▶︎ 보내시는분 이름: ${sender}\n▶︎ 보내시는분 번호: ${senderPhone}\n\n▶︎ 받으시는분 이름: ${recipient}\n▶︎ 받으시는분 번호: ${recipientPhone}\n▶︎ 받으시는분 주소: ${addressTo}`
+      )}`;
     }
   };
 
@@ -144,6 +165,32 @@ export default function StepCart({ formData, setFormData, next, prev }) {
             >
               확인
             </button>
+          </div>
+        </div>
+      )}
+
+      {showError && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
+          <div className="bg-white rounded-xl p-6 max-w-sm w-full shadow-xl text-center">
+            <h3 className="text-lg font-bold mb-4 text-red-600">오류가 발생하였습니다.</h3>
+            <div className="flex flex-col gap-2">
+              <a
+                href={generateSMSLink()}
+                className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700 text-sm"
+              >
+                문자로 주문하기
+              </a>
+              <button
+                onClick={() => {
+                  setShowError(false);
+                  setFormData({});
+                  prev(); prev(); prev(); prev();
+                }}
+                className="text-sm text-gray-500 underline"
+              >
+                홈으로 돌아가기
+              </button>
+            </div>
           </div>
         </div>
       )}
