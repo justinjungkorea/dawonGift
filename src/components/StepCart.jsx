@@ -48,9 +48,7 @@ export default function StepCart({ formData, setFormData, next, prev }) {
         timestamp: new Date().toLocaleString(),
       };
 
-      console.log(JSON.stringify(payload));
-
-      const res = await fetch('https://script.google.com/macros/s/AKfycbxWTZNk2aCoRjTiCjVr3OMH8tqlpFqpUxiB-6tZ5RkHe_M7S06nwB1IFzi2wHssRIE4/exec', {
+      const res = await fetch('https://script.google.com/macros/s/AKfycbxEQX02Bd-VC38c-x4w0GWusA6SjlHVoW4VDH4KgYCXUDh7MNPNAIs-ntAyN2kJloaV/exec', {
         method: 'POST',
         body: JSON.stringify(payload),
       });
